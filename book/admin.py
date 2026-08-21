@@ -39,7 +39,7 @@ class BookAdmin(admin.ModelAdmin):
                 'fields': (
                     'name',
                     'description',
-                    'display_authors',
+                    'authors',
                     'publication_year',
                 )
             },
