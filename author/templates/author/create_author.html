@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Author</title>
+</head>
+
+<body>
+
+<h1>Create Author</h1>
+
+{% if error %}
+    <p>{{ error }}</p>
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+
+    <p>
+        <input
+            type="text"
+            name="name"
+            placeholder="First name"
+            required
+        >
+    </p>
+
+    <p>
+        <input
+            type="text"
+            name="surname"
+            placeholder="Last name"
+            required
+        >
+    </p>
+
+    <p>
+        <input
+            type="text"
+            name="patronymic"
+            placeholder="Middle name"
+            required
+        >
+    </p>
+
+    <button type="submit">Create author</button>
+</form>
+
+<p>
+    <a href="{% url 'author_list' %}">Back to authors</a>
+</p>
+
+</body>
+</html>

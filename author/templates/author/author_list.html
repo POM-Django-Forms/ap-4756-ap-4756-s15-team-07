@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Authors</title>
+
+    <style>
+        .navigation {
+            display: flex;
+            gap: 20px;
+        }
+
+        .navigation form {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="navigation">
+    <a href="{% url 'book_list' %}">
+        <button type="button">Books</button>
+    </a>
+
+    <a href="{% url 'order_list' %}">
+        <button type="button">Orders</button>
+    </a>
+
+    <a href="{% url 'user_list' %}">
+        <button type="button">Users</button>
+    </a>
+
+    <a href="{% url 'author_list' %}">
+        <button type="button">Authors</button>
+    </a>
+
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
+</div>
+
+<h1>Authors</h1>
+
+<p>
+    <a href="{% url 'create_author' %}">
+        <button type="button">Create author</button>
+    </a>
+</p>
+
+<hr>
+
+{% for author in authors %}
+
+    <div>
+        <p>
+            {{ author.name }}
+            {{ author.surname }}
+            {{ author.patronymic }}
+        </p>
+
+        {% if not author.books.exists %}
+            <form
+                method="post"
+                action="{% url 'delete_author' author.id %}"
+            >
+                {% csrf_token %}
+                <button type="submit">Delete</button>
+            </form>
+        {% else %}
+            <p>Author is attached to a book.</p>
+        {% endif %}
+    </div>
+
+    <hr>
+
+{% empty %}
+    <p>No authors.</p>
+{% endfor %}
+
+</body>
+</html>

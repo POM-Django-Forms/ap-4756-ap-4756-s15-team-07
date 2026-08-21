@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Books</title>
+
+    <style>
+        .navigation {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .navigation form {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="navigation">
+
+    {% if is_librarian %}
+
+        <a href="{% url 'order_list' %}">
+            <button type="button">Orders</button>
+        </a>
+
+        <a href="{% url 'user_list' %}">
+            <button type="button">Users</button>
+        </a>
+
+        <a href="{% url 'author_list' %}">
+            <button type="button">Authors</button>
+        </a>
+
+    {% else %}
+
+        <a href="{% url 'my_orders' %}">
+            <button type="button">My Orders</button>
+        </a>
+
+    {% endif %}
+
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
+
+</div>
+
+<h1>Books</h1>
+
+<form method="get">
+
+    <input
+        type="text"
+        name="name"
+        placeholder="Title"
+        value="{{ name }}"
+    >
+
+    <input
+        type="text"
+        name="author"
+        placeholder="Author"
+        value="{{ author }}"
+    >
+
+    <input
+        type="text"
+        name="description"
+        placeholder="Description"
+        value="{{ description }}"
+    >
+
+    <input
+        type="number"
+        name="count"
+        placeholder="Count"
+        value="{{ count }}"
+    >
+
+    <button type="submit">Filter</button>
+
+    <a href="{% url 'book_list' %}">Clear</a>
+
+</form>
+
+<hr>
+
+{% for book in books %}
+
+    <div>
+
+        <h2>
+            <a href="{% url 'book_detail' book.id %}">
+                {{ book.name }}
+            </a>
+        </h2>
+
+        <p>Available: {{ book.count }}</p>
+
+        <p>
+            Authors:
+            {% for author in book.authors.all %}
+                {{ author.name }}
+                {{ author.surname }}
+                {% if not forloop.last %}, {% endif %}
+            {% empty %}
+                No authors
+            {% endfor %}
+        </p>
+
+    </div>
+
+    <hr>
+
+{% empty %}
+
+    <p>No books found.</p>
+
+{% endfor %}
+
+</body>
+</html>

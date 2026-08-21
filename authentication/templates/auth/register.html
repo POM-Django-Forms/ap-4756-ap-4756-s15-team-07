@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration</title>
+
+    <style>
+        .form-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .form-row label {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Registration</h1>
+
+<form method="post">
+    {% csrf_token %}
+
+    <div class="form-row">
+        <label>
+            First name
+            <input type="text" name="first_name" required>
+        </label>
+
+        <label>
+            Middle name
+            <input type="text" name="middle_name" required>
+        </label>
+
+        <label>
+            Last name
+            <input type="text" name="last_name" required>
+        </label>
+
+        <label>
+            Email
+            <input type="email" name="email" required>
+        </label>
+
+        <label>
+            Password
+            <input type="password" name="password" required>
+        </label>
+
+        <label>
+            Role
+            <select name="role" required>
+                <option value="0">User</option>
+                <option value="1">Librarian</option>
+            </select>
+        </label>
+    </div>
+
+    <div class="actions">
+        <button type="submit">Register</button>
+
+        <a href="{% url 'login' %}">
+            <button type="button">Login</button>
+        </a>
+    </div>
+
+</form>
+
+{% if error %}
+    <p>{{ error }}</p>
+{% endif %}
+
+</body>
+</html>

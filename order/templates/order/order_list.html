@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Orders</title>
+
+    <style>
+        .navigation {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .navigation form {
+            margin: 0;
+        }
+
+        .order {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="navigation">
+
+    <a href="{% url 'book_list' %}">
+        <button type="button">Books</button>
+    </a>
+
+    <a href="{% url 'user_list' %}">
+        <button type="button">Users</button>
+    </a>
+
+    <a href="{% url 'author_list' %}">
+        <button type="button">Authors</button>
+    </a>
+
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
+
+</div>
+
+<h1>All Orders</h1>
+
+<hr>
+
+{% for order in orders %}
+
+    <div class="order">
+
+        <p>
+            <strong>Order ID:</strong> {{ order.id }}
+        </p>
+
+        <p>
+            <strong>User:</strong>
+            {{ order.user.first_name }}
+            {{ order.user.last_name }}
+        </p>
+
+        <p>
+            <strong>Book:</strong>
+            <a href="{% url 'book_detail' order.book.id %}">
+                {{ order.book.name }}
+            </a>
+        </p>
+
+        <p>
+            <strong>Created:</strong>
+            {{ order.created_at }}
+        </p>
+
+        <p>
+            <strong>Planned end:</strong>
+            {{ order.plated_end_at }}
+        </p>
+
+        <p>
+            <strong>Returned:</strong>
+            {% if order.end_at %}
+                {{ order.end_at }}
+            {% else %}
+                Not returned
+            {% endif %}
+        </p>
+
+        {% if not order.end_at %}
+            <form
+                method="post"
+                action="{% url 'close_order' order.id %}"
+            >
+                {% csrf_token %}
+                <button type="submit">Return book</button>
+            </form>
+        {% endif %}
+
+    </div>
+
+    <hr>
+
+{% empty %}
+
+    <p>No orders.</p>
+
+{% endfor %}
+
+</body>
+</html>

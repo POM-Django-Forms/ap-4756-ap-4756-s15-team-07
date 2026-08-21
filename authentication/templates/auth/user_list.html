@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Users</title>
+
+    <style>
+        .navigation {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .navigation form {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="navigation">
+
+    <a href="{% url 'book_list' %}">
+        <button type="button">Books</button>
+    </a>
+
+    <a href="{% url 'order_list' %}">
+        <button type="button">Orders</button>
+    </a>
+
+    <a href="{% url 'author_list' %}">
+        <button type="button">Authors</button>
+    </a>
+
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
+
+</div>
+
+<h1>Users</h1>
+
+{% for user in users %}
+
+    <div>
+        <h2>
+            <a href="{% url 'user_detail' user.id %}">
+                {{ user.first_name }} {{ user.last_name }}
+            </a>
+        </h2>
+    </div>
+
+    <hr>
+
+{% empty %}
+
+    <p>No users found.</p>
+
+{% endfor %}
+
+</body>
+</html>

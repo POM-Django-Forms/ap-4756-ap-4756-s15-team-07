@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Order</title>
+</head>
+<body>
+
+<h1>Create Order</h1>
+
+{% if error %}
+    <p>{{ error }}</p>
+{% endif %}
+
+<p>Book: {{ book.name }}</p>
+<p>Available: {{ book.count }}</p>
+<p>Planned return: 14 days from today</p>
+
+{% if book.count > 0 %}
+    <form method="post">
+        {% csrf_token %}
+
+        <input
+            type="hidden"
+            name="book_id"
+            value="{{ book.id }}"
+        >
+
+        <button type="submit">
+            Create order
+        </button>
+    </form>
+{% endif %}
+
+<br>
+
+<a href="{% url 'book_detail' book.id %}">
+    Back to book
+</a>
+
+</body>
+</html>

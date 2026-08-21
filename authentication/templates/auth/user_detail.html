@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User</title>
+</head>
+<body>
+
+<h1>User details</h1>
+
+<p>ID: {{ user.id }}</p>
+<p>First name: {{ user.first_name }}</p>
+<p>Middle name: {{ user.middle_name }}</p>
+<p>Last name: {{ user.last_name }}</p>
+<p>Email: {{ user.email }}</p>
+<p>Role: {{ user.get_role_name }}</p>
+
+<p>
+    <a href="{% url 'user_list' %}">Back to users</a>
+</p>
+
+</body>
+</html>
