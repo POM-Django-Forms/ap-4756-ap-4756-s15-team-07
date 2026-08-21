@@ -1,5 +1,7 @@
 from django.db import models
 
+from author.models import Author
+
 
 class Book(models.Model):
     """
@@ -10,16 +12,25 @@ class Book(models.Model):
         blank=True,
         max_length=128
     )
+
     description = models.CharField(
         blank=True,
         max_length=256
     )
+
     publication_year = models.IntegerField(
         null=True,
         blank=True
     )
+
     count = models.IntegerField(default=10)
+
     id = models.AutoField(primary_key=True)
+
+    authors = models.ManyToManyField(
+        Author,
+        related_name='books'
+    )
 
     def __str__(self):
         return self.name
@@ -57,10 +68,11 @@ class Book(models.Model):
         if len(name) > 128:
             return None
 
-        book = Book()
-        book.name = name
-        book.description = description
-        book.count = count
+        book = Book(
+            name=name,
+            description=description,
+            count=count
+        )
         book.save()
 
         if authors is not None:
@@ -103,8 +115,8 @@ class Book(models.Model):
         """
         Remove authors from book.
         """
-        for elem in self.authors.values():
-            self.authors.remove(elem['id'])
+        for elem in authors:
+            self.authors.remove(elem)
 
     @staticmethod
     def get_all():
