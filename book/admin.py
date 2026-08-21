@@ -9,6 +9,7 @@ class BookAdmin(admin.ModelAdmin):
         'id',
         'name',
         'description',
+        'publication_year',
         'count',
         'display_authors',
     )
@@ -25,6 +26,32 @@ class BookAdmin(admin.ModelAdmin):
         'id',
         'name',
         'authors',
+    )
+
+    readonly_fields = (
+        'display_authors',
+    )
+
+    fieldsets = (
+        (
+            'Book information',
+            {
+                'fields': (
+                    'name',
+                    'description',
+                    'display_authors',
+                    'publication_year',
+                )
+            },
+        ),
+        (
+            'Library information',
+            {
+                'fields': (
+                    'count',
+                )
+            },
+        ),
     )
 
     def display_authors(self, obj):

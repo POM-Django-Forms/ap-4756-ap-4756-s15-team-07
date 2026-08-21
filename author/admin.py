@@ -11,3 +11,23 @@ class AuthorAdmin(admin.ModelAdmin):
         'surname',
         'patronymic',
     )
+
+    search_fields = (
+        'id',
+        'name',
+        'surname',
+        'patronymic',
+    )
+
+    fieldsets = (
+        (
+            'Author information',
+            {
+                'fields': (
+                    'name',
+                    'surname',
+                    'patronymic',
+                )
+            },
+        ),
+    )

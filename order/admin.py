@@ -27,3 +27,22 @@ class OrderAdmin(admin.ModelAdmin):
         'book__authors__surname',
         'book__authors__patronymic',
     )
+
+    fieldsets = (
+        (
+            'Book issue information',
+            {
+                'fields': (
+                    'book',
+                    'user',
+                    'created_at',
+                    'end_at',
+                    'plated_end_at',
+                ),
+            },
+        ),
+    )
+
+    readonly_fields = (
+        'created_at',
+    )
