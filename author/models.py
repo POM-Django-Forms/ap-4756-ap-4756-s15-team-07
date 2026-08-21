@@ -4,6 +4,7 @@ import book.models
 
 
 class Author(models.Model):
+
     """
         This class represents an Author. \n
         Attributes:
@@ -18,16 +19,14 @@ class Author(models.Model):
     name = models.CharField(blank=True, max_length=20)
     surname = models.CharField(blank=True, max_length=20)
     patronymic = models.CharField(blank=True, max_length=20)
-    books = models.ManyToManyField(book.models.Book, related_name='authors')
+    books = models.ManyToManyField(
+        book.models.Book,
+        related_name='authors'
+    )
     id = models.AutoField(primary_key=True)
 
     def __str__(self):
-        """
-        Magic method is redefined to show all information about Author.
-        :return: author id, author name, author surname, author patronymic
-        """
-        return f"\'id\': {self.pk}, \'name\': \'{self.name}\'," \
-               f" \'surname\': \'{self.surname}\', \'patronymic\': \'{self.patronymic}\'"
+        return f'{self.name} {self.surname} {self.patronymic}'.strip()
 
     def __repr__(self):
         """
@@ -42,9 +41,6 @@ class Author(models.Model):
         :param author_id: SERIAL: the id of a Author to be found in the DB
         :return: author object or None if a user with such ID does not exist
         """
-        # return Author.objects.filter(id=author_id)
-        # return Author.get_by_id(author_id)
-        # return  Author.get_object_or_404()
         try:
             return Author.objects.get(pk=author_id)
         except:
@@ -67,47 +63,39 @@ class Author(models.Model):
     @staticmethod
     def create(name, surname, patronymic):
         """
-        param name: Describes name of the author
-        type name: str max_length=20
-        param surname: Describes surname of the author
-        type surname: str max_length=20
-        param patronymic: Describes patronymic of the author
-        type patronymic: str max_length=20
-        :return: a new author object which is also written into the DB
+        Create a new author.
         """
-        if name and len(name) <= 20 and surname and len(surname) <= 20 and patronymic and len(patronymic) <= 20:
-            author = Author(name=name, surname=surname, patronymic=patronymic)
+        if (
+            name
+            and len(name) <= 20
+            and surname
+            and len(surname) <= 20
+            and patronymic
+            and len(patronymic) <= 20
+        ):
+            author = Author(
+                name=name,
+                surname=surname,
+                patronymic=patronymic
+            )
             author.save()
             return author
 
     def to_dict(self):
         """
         :return: author id, author name, author surname, author patronymic
-        :Example:
-        | {
-        |   'id': 8,
-        |   'name': 'fn',
-        |   'surname': 'mn',
-        |   'patronymic': 'ln',
-        | }
         """
         # return self.__dict__
 
-    def update(self,
-               name=None,
-               surname=None,
-               patronymic=None):
+    def update(
+        self,
+        name=None,
+        surname=None,
+        patronymic=None
+    ):
         """
-        Updates author in the database with the specified parameters.\n
-        param name: Describes name of the author
-        type name: str max_length=20
-        param surname: Describes surname of the author
-        type surname: str max_length=20
-        param patronymic: Describes patronymic of the author
-        type patronymic: str max_length=20
-        :return: None
+        Updates author in the database with the specified parameters.
         """
-
         if name and len(name) <= 20:
             self.name = name
         if surname and len(surname) <= 20:
