@@ -1,3 +1,4 @@
+@@ -0,0 +1,17 @@
 Сopy the project from the previous sprint.
 
 Create an admin panel for your projects.
